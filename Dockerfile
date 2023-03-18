@@ -1,4 +1,4 @@
-FROM ghcr.io/graalvm/graalvm-ce:ol8-java17-22.1.0
+FROM ghcr.io/graalvm/graalvm-ce:ol8-java17-22.3.1
 WORKDIR /installdir
 RUN gu install native-image
 ARG RESULT_LIB="/staticlibs"
@@ -10,7 +10,7 @@ RUN mkdir ${RESULT_LIB} && \
     cp /usr/lib/gcc/x86_64-redhat-linux/8/libstdc++.a ${RESULT_LIB}/lib/ && \
     cp ${RESULT_LIB}/bin/musl-gcc ${RESULT_LIB}/bin/x86_64-linux-musl-gcc
 ENV PATH="$PATH:${RESULT_LIB}/bin"
-RUN curl -L -s -o zlib.tar.gz https://zlib.net/zlib-1.2.12.tar.gz && \
+RUN curl -L -s -o zlib.tar.gz https://zlib.net/zlib-1.2.13.tar.gz && \
    mkdir zlib && tar -xzf zlib.tar.gz -C zlib --strip-components 1 && cd zlib && \
    ./configure --static --prefix=${RESULT_LIB} &>/dev/null && \
     make -s && make install -s
